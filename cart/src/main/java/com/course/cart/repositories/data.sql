@@ -1,1 +1,0 @@
-INSERT INTO Cart(id) values (1);
