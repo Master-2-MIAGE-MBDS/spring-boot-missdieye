@@ -7,11 +7,11 @@ import com.course.cart.repositories.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -43,6 +43,14 @@ public class CartController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't get cart");
 
         return cart;
+    }
+
+    @GetMapping(value = "/productCart")
+    public List<CartItem> list()
+    {
+        List<CartItem> cartItems = cartItemRepository.findAll();
+
+        return cartItems;
     }
 
     @PostMapping(value = "/cart/{id}")

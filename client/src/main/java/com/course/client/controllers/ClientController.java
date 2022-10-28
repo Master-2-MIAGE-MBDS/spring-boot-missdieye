@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class ClientController {
 
     @Autowired
     private MsProductProxy msProductProxy;
+    @Autowired
     private MsCartProxy msCartProxy;
 
     @RequestMapping("/")
@@ -42,17 +44,25 @@ public class ClientController {
 
     @GetMapping("card-detail")
     public String cardDetail(Model model ){
-        Optional<CartBean> card = msCartProxy.getCart(Long.valueOf(1));
-
+        Optional<CartBean> card = msCartProxy.getCart(1L);
+       /* List<CartItemBean> productCard=card.get().getProducts();
+        List itemCard = null;
+        for (int i=0;i<productCard.size();i++){
+            Optional<ProductBean> product = msProductProxy.get(productCard.get(i).productId);
+            itemCard.add(product);
+        }
+*/
         model.addAttribute("card", card.get());
+        //model.addAttribute("card", itemCard);
         return "carddetail";
     }
 
-    @GetMapping("/cart/add/{productId}")
+    @PostMapping( "/cart/{productId}")
     public String addCart(Model model,@PathVariable Long productId ){
-        CartItemBean cartItem= new CartItemBean(Long.valueOf(1),productId,1);
-       msCartProxy.addProductToCart(Long.valueOf(1),);
-        Optional<CartBean> card = msCartProxy.getCart(Long.valueOf(1));
+        CartItemBean cartItem= new CartItemBean(productId,1);
+        msCartProxy.addProductToCart(1L,cartItem);
+
+        Optional<CartBean> card = msCartProxy.getCart(1L);
 
         model.addAttribute("card", card.get());
         return "carddetail";
