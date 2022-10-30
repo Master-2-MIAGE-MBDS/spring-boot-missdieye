@@ -1,18 +1,27 @@
 package com.course.client.beans;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 import java.util.List;
 
-public class CartBean {
+public class OrderBean {
     private Long id;
 
-    private List<CartItemBean> products;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date date;
 
-    public CartBean(Long id) {
-        this.id = id;
+    private Double totalAmount;
+
+    private List<OrderItemBean> products;
+
+    public OrderBean() {
     }
 
-    public CartBean() {
+    public OrderBean(Date date,Double totalAmount) {
+        this.date=date;
+        this.totalAmount=totalAmount;
     }
 
     public Long getId() {
@@ -23,11 +32,29 @@ public class CartBean {
         this.id = id;
     }
 
-    public List<CartItemBean> getProducts() {
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public List<OrderItemBean> getProducts() {
         return products;
     }
 
-    public void addProduct(CartItemBean product) {
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public void addProduct(OrderItemBean product) {
         this.products.add(product);
     }
+
+
 }

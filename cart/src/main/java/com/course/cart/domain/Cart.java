@@ -2,7 +2,6 @@ package com.course.cart.domain;
 
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -36,4 +35,9 @@ public class Cart {
     public void addProduct(CartItem product) {
         this.products.add(product);
     }
+
+    public void  deleteProduct(){
+        this.products.removeAll(this.products);
+    }
+
 }

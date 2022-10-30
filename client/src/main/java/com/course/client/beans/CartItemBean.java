@@ -8,6 +8,13 @@ public class CartItemBean {
 
     private Integer quantity;
 
+    private String name;
+
+    private String illustration;
+
+    private Double price;
+
+
     public CartItemBean() {
     }
 

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -45,24 +46,6 @@ public class CartController {
         return cart;
     }
 
-    @GetMapping(value = "/itemCart/{id}")
-    public Optional<CartItem> getItemCart(@PathVariable Long id)
-    {
-        Optional<CartItem> cartItem = cartItemRepository.findByProductId(id);
-
-        if (cartItem == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't get cart item");
-
-        return cartItem;
-    }
-
-    @GetMapping(value = "/productCart")
-    public List<CartItem> list()
-    {
-        List<CartItem> cartItems = cartItemRepository.findAll();
-
-        return cartItems;
-    }
 
     @PostMapping(value = "/cart/{id}")
     @Transactional
@@ -79,5 +62,15 @@ public class CartController {
         cartRepository.save(cart);
 
         return new ResponseEntity<CartItem>(cartItem, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/cartItem/{id}")
+    public Map<String, Boolean> deleteItemCart(@PathVariable Long id){
+        Cart cart = cartRepository.getOne(id);
+
+        cart.deleteProduct();
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
     }
 }

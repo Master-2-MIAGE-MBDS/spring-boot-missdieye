@@ -1,6 +1,6 @@
 package com.course.client.beans;
 
-public class CartItemBean {
+public class OrderItemBean {
 
     private Long id;
 
@@ -8,16 +8,16 @@ public class CartItemBean {
 
     private Integer quantity;
 
-    public CartItemBean() {
+    public OrderItemBean() {
     }
 
-    public CartItemBean(Long id, Long productId, Integer quantity) {
+    public OrderItemBean(Long id, Long productId, Integer quantity) {
         this.id = id;
         this.productId = productId;
         this.quantity = quantity;
     }
 
-    public CartItemBean(Long productId, int quantity) {
+    public OrderItemBean(Long productId, int quantity) {
         this.productId = productId;
         this.quantity = quantity;
     }
@@ -48,6 +48,6 @@ public class CartItemBean {
 
     @Override
     public String toString() {
-        return "Cart Item :"+id+":"+productId+":"+quantity;
+        return "Order Item :"+id+":"+productId+":"+quantity;
     }
 }

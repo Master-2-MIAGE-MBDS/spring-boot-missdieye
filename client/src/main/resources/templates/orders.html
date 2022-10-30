@@ -25,7 +25,7 @@
                 <div class="row justify-content-between mb-3">
                     <div class="col-auto"><h6 class="color-1 mb-0 change-color">Liste des commandes</h6></div>
                 </div>
-                <div class="row mt-4" th:each="car : ${cart.getProducts()}">
+                <div class="row mt-4" th:each="order : ${orders}">
                     <div class="col">
                         <div class="card card-2">
                             <div class="card-body">
@@ -33,14 +33,13 @@
                                     <div class="media-body my-auto text-right">
                                         <div class="row  my-auto flex-column flex-md-row">
                                             <div class="col-auto my-auto "><h6
-                                                    th:text="'Ref commande: '+${car.productId}" class="mb-0">
-                                                Michel Mark</h6></div>
-                                            <div class="col my-auto  "><small th:text="'Date: '+${car.productId}">Black
-                                                Rim </small></div>
+                                                    th:text="'Ref commande: '+${order.id}" class="mb-0">
+                                            </h6></div>
+                                            <div class="col my-auto  "><small th:text="'Date: le '+${#dates.format(order.date, 'dd/MM/yyyy à HH:mm:ss')}"> </small></div>
                                             <div class="col my-auto  "><small
-                                                    th:text="'Montant payé: '+${car.productId}">Qty : 1</small></div>
-                                            <div class="col my-auto "><h6 class="mb-0">&#8377;1,235.00</h6>
-                                                <form th:action="@{|/order-detail/${car.productId}|}" method="GET">
+                                                    th:text="'Montant payé: '+${order.totalAmount}+' €'">Qty : 1</small></div>
+                                            <div class="col my-auto ">
+                                                <form th:action="@{|/order-detail/${order.id}|}" method="GET">
                                                     <button type="submit"
                                                             class="bouton bouton-link bouton-block btn btn-primary">
                                                         Détails
@@ -52,15 +51,6 @@
                                 </div>
 
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col">
-                        <div class="row justify-content-between">
-                            <div class="col-auto"><p class="mb-1 text-dark"><b>Order Details</b></p></div>
-                            <div class="flex-sm-col text-right col"><p class="mb-1"><b>Total</b></p></div>
-                            <div class="flex-sm-col col-auto"><p class="mb-1">4,835 *</p></div>
                         </div>
                     </div>
                 </div>
