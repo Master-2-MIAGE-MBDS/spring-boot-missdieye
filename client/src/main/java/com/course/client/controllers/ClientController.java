@@ -97,7 +97,19 @@ public class ClientController {
     // Détail d'une commande
     @GetMapping("order-detail/{orderId}")
     public String orderDetail(Model model, @PathVariable Long orderId) {
+        Optional<OrderBean> order = msOrderProxy.getOrder(orderId);
+        ArrayList itemsOrder = new ArrayList();
+        Double totalAmount= 0D;
+        for (OrderItemBean orderItem : order.get().getProducts()) {
+            Optional<ProductBean> product = msProductProxy.get(orderItem.getProductId());
+            Double totalPrice=orderItem.getQuantity()*product.get().getPrice();
+            Item item = new Item(product.get().getIllustration(),product.get().getName(),orderItem.getQuantity(),product.get().getPrice(),totalPrice);
+            itemsOrder.add(item);
+            totalAmount+=totalPrice;
+        }
 
+        model.addAttribute("orderItems", itemsOrder);
+        model.addAttribute("totalAmount", totalAmount);
         return "orderdetail";
     }
 

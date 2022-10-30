@@ -8,42 +8,40 @@
 <div class="container">
     <div class="navAds" role="navigation">
         <form th:action="@{|/|}" method="GET"><button type="submit" class="bouton bouton-link bouton-block btn btn-primary">Accueil</button></form>
+        <form th:action="@{|/cart-detail|}" method="GET">
+            <button type="submit" class="bouton bouton-link bouton-block btn btn-primary">Voir mon panier</button>
+        </form>
         <form th:action="@{|/orders|}" method="GET"><button type="submit" class="bouton bouton-link bouton-block btn btn-primary">Voir mes commandes</button></form>
     </div>
     <div class="container-fluid my-5  justify-content-center">
         <div class="card card-1">
             <div class="card-header bg-white">
                 <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
-                    <div class="col my-auto"><h4 class="mb-0" >Mon panier</h4></div>
-                    <div class="col my-auto" th:if="${cartItems.size()>0}">
-                        <form th:action="@{|/validate-cart/${totalAmount}|}" method="POST">
-                            <button type="submit" class="bouton bouton-link bouton-block btn btn-success">Valider mon panier</button>
-                        </form>
-                    </div>
+                    <div class="col my-auto"><h4 class="mb-0">Détail de la commande </h4></div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="row justify-content-between mb-3">
-                    <div class="col-auto"><h6 class="color-1 mb-0 change-color">Produit dans votre panier</h6></div>
+                    <div class="col-auto"><h6 class="color-1 mb-0 change-color">Produit(s) dans la commande</h6></div>
                 </div>
-                <div th:if="${cartItems.size()==0}"> <h3 style="text-align: center">Aucun produit dans votre panier!<a th:href="@{|/|}"> Cliquez ici pour choisir un produit.</a></h3></div>
-                <div th:if="${cartItems.size()>0}" class="row mt-4" th:each="cartItem : ${cartItems}">
+                <div th:if="${orderItems.size()==0}"> <h3 style="text-align: center">Aucun produit dans votre panier!<a th:href="@{|/|}"> Cliquez ici pour choisir un produit.</a></h3></div>
+                <div th:if="${orderItems.size()>0}" class="row mt-4" th:each="orderItem : ${orderItems}">
                     <div class="col">
                         <div class="card card-2">
                             <div class="card-body">
                                 <div class="media">
                                     <div class="sq align-self-center ">
                                         <img class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
-                                             th:src="${cartItem.illustration}"
+                                             th:src="${orderItem.illustration}"
                                              width="135" height="135" alt="..."/>
                                     </div>
                                     <div class="media-body my-auto text-right">
                                         <div class="row  my-auto flex-column flex-md-row">
-                                            <div class="col-auto my-auto "><h6 th:text="${cartItem.name}" class="mb-0">
+                                            <div class="col-auto my-auto "><h6 th:text="${orderItem.name}" class="mb-0">
                                             </h6></div>
-                                            <div class="col my-auto  "><small th:text="'Prix unitaire : '+${cartItem.price}+' €'"></small></div>
-                                            <div class="col my-auto  " ><small th:text="'Quantité : '+${cartItem.quantity}"></small></div>
-                                            <div class="col my-auto "><h6 class="mb-0" th:text="'Prix total : '+${cartItem.totalPrice}+' €'"></h6>
+                                            <div class="col my-auto  "><small th:text="'Prix unitaire : '+${orderItem.price}+' €'"></small></div>
+                                            <div class="col my-auto  " ><small th:text="'Quantité : '+${orderItem.quantity}"></small></div>
+                                            <div class="col my-auto "><h6 class="mb-0" th:text="'Prix total : '+${orderItem.totalPrice}+' €'"></h6>
                                             </div>
                                         </div>
                                     </div>
@@ -56,9 +54,9 @@
             </div>
             <div class="card-footer">
                 <div class="jumbotron-fluid">
-                    <div class="row justify-content-between " th:if="${cartItems.size()>0}">
+                    <div class="row justify-content-between " th:if="${orderItems.size()>0}">
                         <div class="col-sm-auto col-auto my-auto"></div>
-                        <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL À PAYER</h2></div>
+                        <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL PAYÉ</h2></div>
                         <div class="col-auto my-auto ml-auto"><h1 class="display-3 " th:text="${totalAmount}+' €'"></h1></div>
                     </div>
                 </div>
