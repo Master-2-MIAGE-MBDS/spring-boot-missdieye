@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
 
-//@FeignClient(name = "ms-order", url = "localhost:8093")
+//@FeignClient(name = "ms-product", url = "localhost:8091")
 @Entity
 public class Order {
     @Id
