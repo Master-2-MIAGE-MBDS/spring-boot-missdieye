@@ -1,0 +1,849 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Microservice Client</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css} "/>
+</head>
+<body>
+<div class="container">
+    <div class="container-fluid my-5  justify-content-center">
+        <div class="card card-1">
+            <div class="card-header bg-white">
+                <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
+                    <div class="col my-auto"><h4 class="mb-0" th:text="${cart.getProducts()}">Mon panier</h4></div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-between mb-3">
+                    <div class="col-auto"><h6 class="color-1 mb-0 change-color">Produit dans votre panier</h6></div>
+                </div>
+                <div th:if="${cart.getProducts().size()==0}"> <h3 style="text-align: center">Aucun produit dans votre panier!<a th:href="@{|/|}"> Cliquez ici pour choisir un produit.</a></h3></div>
+                <div th:if="${cart.getProducts().size()>0}" class="row mt-4" th:each="car : ${cart.getProducts()}">
+                    <div class="col">
+                        <div class="card card-2">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="sq align-self-center "><img
+                                            class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                            src="https://i.imgur.com/fUWWpRS.jpg" width="135" height="135"/></div>
+                                    <div class="media-body my-auto text-right">
+                                        <div class="row  my-auto flex-column flex-md-row">
+                                            <div class="col-auto my-auto "><h6 th:text="${car.productId}" class="mb-0">
+                                                Michel Mark</h6></div>
+                                            <div class="col my-auto  "><small th:text="'Prix unitaire : '+${car.quantity}"></small></div>
+                                            <div class="col my-auto  " ><small th:text="'Quantité : '+${car.quantity}"></small></div>
+                                            <div class="col my-auto "><h6 class="mb-0" th:text="'Prix total : '+${car.quantity}">1,235.00 €</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="jumbotron-fluid">
+                    <div class="row justify-content-between " th:if="${cart.getProducts().size()>0}">
+                        <div class="col-sm-auto col-auto my-auto"></div>
+                        <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL à payer</h2></div>
+                        <div class="col-auto my-auto ml-auto"><h1 class="display-3 ">5,528€</h1></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-1">
+            <div class="card-header bg-white">
+                <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
+                    <div class="col my-auto"><h4 class="mb-0">Mes commandes</h4></div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-between mb-3">
+                    <div class="col-auto"><h6 class="color-1 mb-0 change-color">Liste des commandes</h6></div>
+                </div>
+                <div class="row mt-4" th:each="car : ${cart.getProducts()}">
+                    <div class="col">
+                        <div class="card card-2">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="sq align-self-center "><img
+                                            class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                            src="https://i.imgur.com/fUWWpRS.jpg" width="135" height="135"/></div>
+                                    <div class="media-body my-auto text-right">
+                                        <div class="row  my-auto flex-column flex-md-row">
+                                            <div class="col-auto my-auto "><h6 th:text="${car.productId}" class="mb-0">
+                                                Michel Mark</h6></div>
+                                            <div class="col my-auto  "><small>Black Rim </small></div>
+                                            <div class="col my-auto  "><small>Size : L</small></div>
+                                            <div class="col my-auto  "><small>Qty : 1</small></div>
+                                            <div class="col my-auto "><h6 class="mb-0">&#8377;1,235.00</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <div class="row justify-content-between">
+                            <div class="col-auto"><p class="mb-1 text-dark"><b>Order Details</b></p></div>
+                            <div class="flex-sm-col text-right col"><p class="mb-1"><b>Total</b></p></div>
+                            <div class="flex-sm-col col-auto"><p class="mb-1">4,835 *</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,900);
+
+    html,
+    body {
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+        background: #fff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+    }
+
+    .wrapper {
+        display: table;
+        height: 100%;
+        width: 100%;
+    }
+
+    .container-fostrap {
+        display: table-cell;
+        padding: 1em;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .fostrap-logo {
+        width: 100px;
+        margin-bottom: 15px;
+    }
+
+    h1.heading {
+        color: #fff;
+        font-size: 30px;
+        font-weight: 900;
+        margin: 0 0 0.5em;
+        color: #505050;
+    }
+
+    @media (max-width: 320px) {
+        h1.heading {
+            font-size: 3.55em;
+        }
+
+        .ad {
+            width: 100px;
+        }
+    }
+
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+        h1.heading {
+            font-size: 3.05em;
+        }
+
+        .ad {
+            width: 250px;
+        }
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 768px) {
+        h1.heading {
+            font-size: 3.25em;
+            margin: 0 0 0.3em;
+        }
+
+        .ad {
+            width: 360px;
+        }
+    }
+
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+        .ad {
+            width: 310px;
+        }
+    }
+
+    @media screen and (min-width: 1025px) and (max-width: 1200px) {
+        .ad {
+            width: 270px;
+        }
+    }
+
+    @media screen and (min-width: 1201px) and (max-width: 1400px) {
+        .ad {
+            width: 340px;
+        }
+    }
+
+    @media screen and (min-width: 1201px) {
+        .ad {
+            width: 400px;
+        }
+    }
+
+    .card {
+        display: block;
+        margin-bottom: 20px;
+        line-height: 1.42857143;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        transition: box-shadow 0.25s;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .img-card {
+        width: 100%;
+        height: 200px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        display: block;
+        overflow: hidden;
+    }
+
+    .img-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: all 0.25s ease;
+    }
+
+    .card-content {
+        padding: 15px;
+        text-align: left;
+    }
+
+    .card-title {
+        margin-top: 0px;
+        font-weight: 700;
+        font-size: 1.65em;
+    }
+
+    .card-title a {
+        color: #000;
+        text-decoration: none !important;
+    }
+
+    .card-read-more {
+        border-top: 1px solid #d4d4d4;
+        text-align: center;
+    }
+
+    .card-read-more a {
+        text-decoration: none !important;
+        padding: 10px;
+        font-weight: 600;
+        background-color: #ff6e14;
+        text-transform: uppercase;
+    }
+
+    .card-read-more a:hover {
+        text-decoration: none !important;
+        padding: 10px;
+        font-weight: 600;
+        background-color: #ffb69b;
+        color: white;
+        text-transform: uppercase;
+    }
+
+    p.price {
+        text-align: center;
+        font-size: xx-large;
+    }
+
+    a.create.bouton.bouton-primary {
+        text-decoration: none;
+    }
+
+    .bouton-primary {
+        color: #ff6e14;
+        background-color: #ffb69b;
+    }
+
+    .bouton-primary {
+        color: #ff6e14;
+        background-color: #ffb69b;
+    }
+
+    .search {
+        background-color: #ff6e14;
+        padding: 4px;
+        border-radius: 5px;
+    }
+
+    .search input {
+        height: 45px;
+        border: none;
+        width: 100%;
+        padding-left: 34px;
+        padding-right: 10px;
+        border-right: 2px solid #eee;
+    }
+
+    .row.barresearchadd {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    fieldset {
+        min-width: 0;
+        /* [1] */
+        border: 0;
+    }
+
+    .form-row {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-align: start;
+        -webkit-align-items: flex-start;
+        -moz-box-align: start;
+        -ms-flex-align: start;
+        align-items: flex-start;
+        padding: 24px 55px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .form-row .name {
+        width: 185px;
+        color: #333;
+        font-size: 15px;
+        font-weight: 700;
+        margin-top: 11px;
+    }
+
+    .form-row .value {
+        width: -webkit-calc(100% - 188px);
+        width: -moz-calc(100% - 188px);
+        width: calc(100% - 188px);
+    }
+
+    .ckb {
+        margin: 10px;
+    }
+
+    @media (max-width: 767px) {
+        .form-row {
+            display: block;
+            padding: 24px 30px;
+        }
+
+        .form-row .name,
+        .form-row .value {
+            display: block;
+            width: 100%;
+        }
+
+        .form-row .name {
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+    }
+
+    .bouton {
+        display: inline-block;
+        line-height: 50px;
+        border-radius: 8px;
+        padding: 0 30px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        cursor: pointer;
+        font-size: 15px;
+        text-transform: capitalize;
+        font-weight: 700;
+        color: #fff;
+        font-family: inherit;
+    }
+
+    .bouton--radius {
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    .bouton {
+        display: inline-block;
+        line-height: 50px;
+        padding: 0 30px;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        cursor: pointer;
+        font-size: 15px;
+        text-transform: capitalize;
+        font-weight: 700;
+        color: #fff;
+        font-family: inherit;
+    }
+
+    .bouton--radius {
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    .input--style,
+    .textarea--style {
+        background: transparent;
+        line-height: 38px;
+        border: 1px solid #cccccc;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        color: #666;
+        font-size: 15px;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        padding: 0 20px;
+    }
+
+    input,
+    textarea {
+        outline: none;
+        margin: 0;
+        border: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        width: 100%;
+        font-size: 14px;
+        font-family: inherit;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none !important;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .textarea--style {
+        line-height: 1.2;
+        min-height: 120px;
+        padding: 10px 20px;
+    }
+
+    .input-file {
+        display: none;
+    }
+
+    .input-file + label {
+        font-size: 15px;
+        color: #fff;
+        color: white;
+        line-height: 40px;
+        background-color: #666666;
+        padding: 0 20px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        display: inline-block;
+        margin-right: 15px;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        cursor: pointer;
+    }
+
+    .input-file:focus + label,
+    .input-file + label:hover {
+        background: #1b1b1b;
+    }
+
+    .bouton-primary:hover {
+        color: #fff;
+        background-color: #ff6e14;
+    }
+
+    .input-file__info {
+        font-size: 15px;
+        color: #666;
+    }
+
+    @media (max-width: 767px) {
+        .input-file__info {
+            display: block;
+            margin-top: 6px;
+        }
+    }
+
+    /* SHOW ADS*/
+    img#product-detail {
+        width: 100%;
+    }
+
+    .cardads {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+    }
+
+    .card-img,
+    .card-img-bottom {
+        border-bottom-right-radius: calc(0.25rem - 1px);
+        border-bottom-left-radius: calc(0.25rem - 1px);
+    }
+
+    .card-body {
+        flex: 1 1 auto;
+        padding: 1rem 1rem;
+    }
+
+    @keyframes tonext {
+        75% {
+            left: 0;
+        }
+        95% {
+            left: 100%;
+        }
+        98% {
+            left: 100%;
+        }
+        99% {
+            left: 0;
+        }
+    }
+
+    @keyframes tostart {
+        75% {
+            left: 0;
+        }
+        95% {
+            left: -300%;
+        }
+        98% {
+            left: -300%;
+        }
+        99% {
+            left: 0;
+        }
+    }
+
+    @keyframes snap {
+        96% {
+            scroll-snap-align: center;
+        }
+        97% {
+            scroll-snap-align: none;
+        }
+        99% {
+            scroll-snap-align: none;
+        }
+        100% {
+            scroll-snap-align: center;
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+        scrollbar-color: transparent transparent; /* thumb and track color */
+        scrollbar-width: 0px;
+    }
+
+    *::-webkit-scrollbar {
+        width: 0;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background: transparent;
+        border: none;
+    }
+
+    * {
+        -ms-overflow-style: none;
+    }
+
+    ol,
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .carousel {
+        position: relative;
+        padding-top: 75%;
+        filter: drop-shadow(0 0 10px #0003);
+        perspective: 100px;
+    }
+
+    .carousel__viewport {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        overflow-x: scroll;
+        counter-reset: item;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+    }
+
+    .carousel__slide {
+        position: relative;
+        flex: 0 0 100%;
+        width: 100%;
+        counter-increment: item;
+    }
+
+    .carousel__slide:before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -40%, 70px);
+        color: #fff;
+        font-size: 2em;
+    }
+
+    .carousel__snapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        scroll-snap-align: center;
+    }
+
+    @media (hover: hover) {
+        .carousel__snapper {
+            animation-name: tonext, snap;
+            animation-timing-function: ease;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+        }
+
+        .carousel__slide:last-child .carousel__snapper {
+            animation-name: tostart, snap;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .carousel__snapper {
+            animation-name: none;
+        }
+    }
+
+    .carousel:hover .carousel__snapper,
+    .carousel:focus-within .carousel__snapper {
+        animation-name: none;
+    }
+
+    .carousel__navigation {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        text-align: center;
+    }
+
+    .carousel__navigation-list,
+    .carousel__navigation-item {
+        display: inline-block;
+    }
+
+    .carousel__navigation-button {
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: #333;
+        background-clip: content-box;
+        border: 0.25rem solid transparent;
+        border-radius: 50%;
+        font-size: 0;
+        transition: transform 0.1s;
+    }
+
+    .carousel::before,
+    .carousel::after,
+    .carousel__prev,
+    .carousel__next {
+        position: absolute;
+        top: 0;
+        margin-top: 37.5%;
+        width: 4rem;
+        height: 4rem;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        font-size: 0;
+        outline: 0;
+    }
+
+    .carousel::before,
+    .carousel__prev {
+        left: -1rem;
+    }
+
+    .carousel::after,
+    .carousel__next {
+        right: -1rem;
+    }
+
+    .carousel::before,
+    .carousel::after {
+        content: "";
+        z-index: 1;
+        background-color: #333;
+        background-size: 1.5rem 1.5rem;
+        background-repeat: no-repeat;
+        background-position: center center;
+        color: #fff;
+        font-size: 2.5rem;
+        line-height: 4rem;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .carousel::before {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,50 80,100 80,0' fill='%23fff'/%3E%3C/svg%3E");
+    }
+
+    .carousel::after {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
+    }
+
+    .row.card.show {
+        margin-top: 30px;
+        padding-right: 0px;
+    }
+
+    img.card-img-top {
+        width: 100%;
+    }
+
+    .bouton.bouton-primary:hover {
+        background-color: #ff6e14;
+    }
+
+    .container {
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .navAds > ul {
+        display: flex;
+        justify-content: center;
+    }
+
+    .navAds > ul > li {
+        margin: 20px;
+    }
+
+    span.badge {
+        background: #ff6e14;
+    }
+
+    span.badge.danger {
+        background: red;
+    }
+
+    span.badge.admin {
+        background: green;
+    }
+
+    .card-footer input.bouton.bouton-primary {
+        max-width: 124px;
+    }
+
+    .navAds a:hover {
+        text-decoration: none;
+    }
+
+    .navAds a {
+        text-decoration: none;
+    }
+
+    i.fa.fa-minus-circle.fa-2x {
+        color: red;
+    }
+
+    i.fa.fa-edit.fa-2x {
+        color: #ff6e14;
+    }
+
+    .fa-2x {
+        font-size: 2em;
+    }
+
+    .fa {
+        position: relative;
+        display: table-cell;
+        width: 60px;
+        height: 36px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
+    }
+
+    .bouton.bouton-primary {
+        display: inline-flex;
+    }
+
+    .bouton.bouton-primary i {
+        margin-top: auto;
+    }
+
+    .col-auto i.fa {
+        font-size: 65Px;
+        color: #d16811;
+    }
+
+    .text-xs.font-weight-bold {
+        font-size: 22px;
+    }
+
+    .h5.mb-0.font-weight-bold.text-gray-800 {
+        font-size: 30px;
+    }
+</style>
+</html>
