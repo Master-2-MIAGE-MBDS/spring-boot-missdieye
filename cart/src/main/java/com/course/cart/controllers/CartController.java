@@ -45,6 +45,17 @@ public class CartController {
         return cart;
     }
 
+    @GetMapping(value = "/itemCart/{id}")
+    public Optional<CartItem> getItemCart(@PathVariable Long id)
+    {
+        Optional<CartItem> cartItem = cartItemRepository.findByProductId(id);
+
+        if (cartItem == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't get cart item");
+
+        return cartItem;
+    }
+
     @GetMapping(value = "/productCart")
     public List<CartItem> list()
     {

@@ -1,65 +1,64 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Microservice Client</title>
+    <title>Cart Details</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css} "/>
 </head>
 <body>
 <div class="container">
-    <div class="container-fluid my-5  d-flex  justify-content-center">
-    <div class="card card-1">
-        <div class="card-header bg-white">
-            <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
-                <div class="col my-auto"> <h4 class="mb-0" th:text= "${card.getProducts()}" >Merci pour votre commande !</h4> </div>
+    <div class="navAds" role="navigation">
+        <form th:action="@{|/|}" method="GET"><button type="submit" class="bouton bouton-link bouton-block btn btn-primary">Accueil</button></form>
+        <form th:action="@{|/orders|}" method="GET"><button type="submit" class="bouton bouton-link bouton-block btn btn-primary">Voir mes commandes</button></form>
+    </div>
+    <div class="container-fluid my-5  justify-content-center">
+        <div class="card card-1">
+            <div class="card-header bg-white">
+                <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
+                    <div class="col my-auto"><h4 class="mb-0" th:text="${cart.getProducts()}">Mon panier</h4></div>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="row justify-content-between mb-3">
-                <div class="col-auto"> <h6 class="color-1 mb-0 change-color">Produit commandé</h6> </div>
-            </div>
-            <div class="row mt-4" th:each="car : ${card.getProducts()}">
-                <div class="col">
-                    <div class="card card-2">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="sq align-self-center "> <img class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="https://i.imgur.com/fUWWpRS.jpg" width="135" height="135" /> </div>
-                                <div class="media-body my-auto text-right">
-                                    <div class="row  my-auto flex-column flex-md-row">
-                                        <div class="col-auto my-auto " > <h6 th:text= "${car.productId}" class="mb-0"> Michel Mark</h6> </div>
-                                        <div class="col my-auto  "> <small>Black Rim </small></div>
-                                        <div class="col my-auto  "> <small>Size : L</small></div>
-                                        <div class="col my-auto  "> <small>Qty : 1</small></div>
-                                        <div class="col my-auto ">  <h6 class="mb-0">&#8377;1,235.00</h6>
+            <div class="card-body">
+                <div class="row justify-content-between mb-3">
+                    <div class="col-auto"><h6 class="color-1 mb-0 change-color">Produit dans votre panier</h6></div>
+                </div>
+                <div th:if="${cart.getProducts().size()==0}"> <h3 style="text-align: center">Aucun produit dans votre panier!<a th:href="@{|/|}"> Cliquez ici pour choisir un produit.</a></h3></div>
+                <div th:if="${cart.getProducts().size()>0}" class="row mt-4" th:each="car : ${cart.getProducts()}">
+                    <div class="col">
+                        <div class="card card-2">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="sq align-self-center "><img
+                                            class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                            src="https://i.imgur.com/fUWWpRS.jpg" width="135" height="135"/></div>
+                                    <div class="media-body my-auto text-right">
+                                        <div class="row  my-auto flex-column flex-md-row">
+                                            <div class="col-auto my-auto "><h6 th:text="${car.productId}" class="mb-0">
+                                                Michel Mark</h6></div>
+                                            <div class="col my-auto  "><small th:text="'Prix unitaire : '+${car.quantity}"></small></div>
+                                            <div class="col my-auto  " ><small th:text="'Quantité : '+${car.quantity}"></small></div>
+                                            <div class="col my-auto "><h6 class="mb-0" th:text="'Prix total : '+${car.quantity}">1,235.00 €</h6>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mt-4">
-                <div class="col">
-                    <div class="row justify-content-between">
-                        <div class="col-auto"><p class="mb-1 text-dark"><b>Order Details</b></p></div>
-                        <div class="flex-sm-col text-right col"> <p class="mb-1"><b>Total</b></p> </div>
-                        <div class="flex-sm-col col-auto"> <p class="mb-1">4,835 *</p> </div>
+            <div class="card-footer">
+                <div class="jumbotron-fluid">
+                    <div class="row justify-content-between " th:if="${cart.getProducts().size()>0}">
+                        <div class="col-sm-auto col-auto my-auto"></div>
+                        <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL à payer</h2></div>
+                        <div class="col-auto my-auto ml-auto"><h1 class="display-3 ">5,528€</h1></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="jumbotron-fluid">
-                <div class="row justify-content-between ">
-                    <div class="col-sm-auto col-auto my-auto"><img class="img-fluid my-auto align-self-center " src="https://i.imgur.com/7q7gIzR.png" width="115" height="115"></div>
-                    <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL à payer</h2></div>
-                    <div class="col-auto my-auto ml-auto"><h1 class="display-3 ">&#8377; 5,528</h1></div>
-                </div>
-            </div>
-        </div>
+
     </div>
-</div>
 </div>
 </body>
 <style>
@@ -88,10 +87,12 @@
         text-align: center;
         vertical-align: middle;
     }
+
     .fostrap-logo {
         width: 100px;
         margin-bottom: 15px;
     }
+
     h1.heading {
         color: #fff;
         font-size: 30px;
@@ -99,51 +100,62 @@
         margin: 0 0 0.5em;
         color: #505050;
     }
+
     @media (max-width: 320px) {
         h1.heading {
             font-size: 3.55em;
         }
+
         .ad {
             width: 100px;
         }
     }
+
     @media screen and (min-width: 320px) and (max-width: 480px) {
         h1.heading {
             font-size: 3.05em;
         }
+
         .ad {
             width: 250px;
         }
     }
+
     @media screen and (min-width: 481px) and (max-width: 768px) {
         h1.heading {
             font-size: 3.25em;
             margin: 0 0 0.3em;
         }
+
         .ad {
             width: 360px;
         }
     }
+
     @media screen and (min-width: 769px) and (max-width: 1024px) {
         .ad {
             width: 310px;
         }
     }
+
     @media screen and (min-width: 1025px) and (max-width: 1200px) {
         .ad {
             width: 270px;
         }
     }
+
     @media screen and (min-width: 1201px) and (max-width: 1400px) {
         .ad {
             width: 340px;
         }
     }
+
     @media screen and (min-width: 1201px) {
         .ad {
             width: 400px;
         }
     }
+
     .card {
         display: block;
         margin-bottom: 20px;
@@ -153,9 +165,11 @@
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
         transition: box-shadow 0.25s;
     }
+
     .card:hover {
         box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+
     .img-card {
         width: 100%;
         height: 200px;
@@ -164,29 +178,35 @@
         display: block;
         overflow: hidden;
     }
+
     .img-card img {
         width: 100%;
         height: 200px;
         object-fit: cover;
         transition: all 0.25s ease;
     }
+
     .card-content {
         padding: 15px;
         text-align: left;
     }
+
     .card-title {
         margin-top: 0px;
         font-weight: 700;
         font-size: 1.65em;
     }
+
     .card-title a {
         color: #000;
         text-decoration: none !important;
     }
+
     .card-read-more {
         border-top: 1px solid #d4d4d4;
         text-align: center;
     }
+
     .card-read-more a {
         text-decoration: none !important;
         padding: 10px;
@@ -203,6 +223,7 @@
         color: white;
         text-transform: uppercase;
     }
+
     p.price {
         text-align: center;
         font-size: xx-large;
@@ -211,14 +232,17 @@
     a.create.bouton.bouton-primary {
         text-decoration: none;
     }
+
     .bouton-primary {
         color: #ff6e14;
         background-color: #ffb69b;
     }
+
     .bouton-primary {
         color: #ff6e14;
         background-color: #ffb69b;
     }
+
     .search {
         background-color: #ff6e14;
         padding: 4px;
@@ -238,6 +262,7 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
+
     fieldset {
         min-width: 0;
         /* [1] */
@@ -275,6 +300,7 @@
         width: -moz-calc(100% - 188px);
         width: calc(100% - 188px);
     }
+
     .ckb {
         margin: 10px;
     }
@@ -284,16 +310,19 @@
             display: block;
             padding: 24px 30px;
         }
+
         .form-row .name,
         .form-row .value {
             display: block;
             width: 100%;
         }
+
         .form-row .name {
             margin-top: 0;
             margin-bottom: 12px;
         }
     }
+
     .bouton {
         display: inline-block;
         line-height: 50px;
@@ -318,6 +347,7 @@
         -moz-border-radius: 3px;
         border-radius: 3px;
     }
+
     .bouton {
         display: inline-block;
         line-height: 50px;
@@ -356,6 +386,7 @@
         transition: all 0.4s ease;
         padding: 0 20px;
     }
+
     input,
     textarea {
         outline: none;
@@ -368,15 +399,19 @@
         font-size: 14px;
         font-family: inherit;
     }
+
     a {
         text-decoration: none;
     }
-    a:hover{
+
+    a:hover {
         text-decoration: none !important;
     }
+
     textarea {
         resize: none;
     }
+
     .textarea--style {
         line-height: 1.2;
         min-height: 120px;
@@ -410,6 +445,7 @@
     .input-file + label:hover {
         background: #1b1b1b;
     }
+
     .bouton-primary:hover {
         color: #fff;
         background-color: #ff6e14;
@@ -696,6 +732,7 @@
         display: flex;
         justify-content: center;
     }
+
     .navAds > ul > li {
         margin: 20px;
     }
@@ -707,16 +744,19 @@
     span.badge.danger {
         background: red;
     }
+
     span.badge.admin {
         background: green;
     }
-    .card-footer input.bouton.bouton-primary{
+
+    .card-footer input.bouton.bouton-primary {
         max-width: 124px;
     }
 
     .navAds a:hover {
         text-decoration: none;
     }
+
     .navAds a {
         text-decoration: none;
     }
@@ -732,6 +772,7 @@
     .fa-2x {
         font-size: 2em;
     }
+
     .fa {
         position: relative;
         display: table-cell;
@@ -739,7 +780,7 @@
         height: 36px;
         text-align: center;
         vertical-align: middle;
-        font-size:20px;
+        font-size: 20px;
     }
 
     .bouton.bouton-primary {
@@ -758,8 +799,18 @@
     .text-xs.font-weight-bold {
         font-size: 22px;
     }
+
     .h5.mb-0.font-weight-bold.text-gray-800 {
         font-size: 30px;
     }
+
+    .navAds button {
+        margin: 15px;
+    }
+    .navAds {
+        display: flex;
+        justify-content: flex-end;
+    }
+
 </style>
 </html>

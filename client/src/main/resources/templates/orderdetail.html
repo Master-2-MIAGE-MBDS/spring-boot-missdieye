@@ -14,22 +14,18 @@
         <div class="card card-1">
             <div class="card-header bg-white">
                 <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
-                    <div class="col my-auto"><h4 class="mb-0" th:text="${cart.getProducts()}">Mon panier</h4></div>
+                    <div class="col my-auto"><h4 class="mb-0" th:text="${cart.getProducts()}">Détail de la commande N°</h4></div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="row justify-content-between mb-3">
-                    <div class="col-auto"><h6 class="color-1 mb-0 change-color">Produit dans votre panier</h6></div>
+                    <div class="col-auto"><h6 class="color-1 mb-0 change-color">Produit(s) dans la commande</h6></div>
                 </div>
-                <div th:if="${cart.getProducts().size()==0}"> <h3 style="text-align: center">Aucun produit dans votre panier!<a th:href="@{|/|}"> Cliquez ici pour choisir un produit.</a></h3></div>
                 <div th:if="${cart.getProducts().size()>0}" class="row mt-4" th:each="car : ${cart.getProducts()}">
                     <div class="col">
                         <div class="card card-2">
                             <div class="card-body">
                                 <div class="media">
-                                    <div class="sq align-self-center "><img
-                                            class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
-                                            src="https://i.imgur.com/fUWWpRS.jpg" width="135" height="135"/></div>
                                     <div class="media-body my-auto text-right">
                                         <div class="row  my-auto flex-column flex-md-row">
                                             <div class="col-auto my-auto "><h6 th:text="${car.productId}" class="mb-0">
@@ -51,7 +47,7 @@
                 <div class="jumbotron-fluid">
                     <div class="row justify-content-between " th:if="${cart.getProducts().size()>0}">
                         <div class="col-sm-auto col-auto my-auto"></div>
-                        <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL à payer</h2></div>
+                        <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL payé</h2></div>
                         <div class="col-auto my-auto ml-auto"><h1 class="display-3 ">5,528€</h1></div>
                     </div>
                 </div>

@@ -42,34 +42,63 @@ public class ClientController {
         return "productdetail";
     }
 
-    @GetMapping("card-detail")
-    public String cardDetail(Model model ){
-        Optional<CartBean> card = msCartProxy.getCart(1L);
-       /* List<CartItemBean> productCard=card.get().getProducts();
-        List itemCard = null;
-        for (int i=0;i<productCard.size();i++){
-            Optional<ProductBean> product = msProductProxy.get(productCard.get(i).productId);
-            itemCard.add(product);
+    @GetMapping("cart-detail")
+    public String cartDetail(Model model ){
+        Optional<CartBean> cart = msCartProxy.getCart(1L);
+       /* List<CartItemBean> productCart=cart.get().getProducts();
+        List itemCart = null;
+        for (int i=0;i<productCart.size();i++){
+            Optional<ProductBean> product = msProductProxy.get(productCart.get(i).productId);
+            itemCart.add(product);
         }
 */
-        model.addAttribute("card", card.get());
-        //model.addAttribute("card", itemCard);
-        return "carddetail";
+        model.addAttribute("cart", cart.get());
+        //model.addAttribute("cart", itemCart);
+        return "cartdetail";
     }
 
     @PostMapping( "/cart/{productId}")
     public String addCart(Model model,@PathVariable Long productId ){
-        CartItemBean cartItem= new CartItemBean(productId,1);
-        msCartProxy.addProductToCart(1L,cartItem);
+        /*Optional<CartItemBean> cartItemFound =  msCartProxy.getItemCart(productId);
+        System.out.println("éja"+ cartItemFound);
 
-        Optional<CartBean> card = msCartProxy.getCart(1L);
+        if (cartItemFound!=null){
+            System.out.println("ajjjjjjouté déja");
+        }else{*/
+            CartItemBean cartItem= new CartItemBean(productId,1);
+            msCartProxy.addProductToCart(1L,cartItem);
 
-        model.addAttribute("card", card.get());
-        return "carddetail";
+            Optional<CartBean> cart = msCartProxy.getCart(1L);
+
+            model.addAttribute("cart", cart.get());
+        //}
+
+        return "cartdetail";
     }
 
+    @GetMapping("orders")
+    public String orders(Model model ) {
+        Optional<CartBean> cart = msCartProxy.getCart(1L);
+        model.addAttribute("cart", cart.get());
+        return "orders";
+    }
 
-}
+    @GetMapping("order-detail/{orderId}")
+    public String orderDetail(Model model,@PathVariable Long orderId  ){
+        Optional<CartBean> cart = msCartProxy.getCart(1L);
+       /* List<CartItemBean> productCart=cart.get().getProducts();
+        List itemCart = null;
+        for (int i=0;i<productCart.size();i++){
+            Optional<ProductBean> product = msProductProxy.get(productCart.get(i).productId);
+            itemCart.add(product);
+        }
+*/
+        model.addAttribute("cart", cart.get());
+        //model.addAttribute("cart", itemCart);
+        return "orderdetail";
+    }
+
+    }
 
 
 

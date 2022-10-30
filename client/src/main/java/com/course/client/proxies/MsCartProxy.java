@@ -26,4 +26,7 @@ public interface MsCartProxy {
 
     @PostMapping(value = "/cart/{id}")
     public ResponseEntity<CartItemBean> addProductToCart(@PathVariable Long id, @RequestBody CartItemBean cartItem);
+
+    @GetMapping(value = "/itemCart/{id}")
+    public Optional<CartItemBean> getItemCart(@PathVariable Long id);
 }
