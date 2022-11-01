@@ -75,7 +75,7 @@ public class ClientController {
             if (cartItem.getProductId()==productId){
                 exist=true;
                 cartItem.setQuantity(cartItem.getQuantity()+1);
-                msCartProxy.addProductToCart(1L, cartItem);
+                msCartProxy.updateProduct(1L,productId);
             }
         }
         if (!exist){

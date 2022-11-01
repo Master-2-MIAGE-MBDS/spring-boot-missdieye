@@ -32,12 +32,13 @@ public class Cart {
         return products;
     }
 
+    public void setProducts(List<CartItem> products) {
+        this.products = products;
+    }
+
     public void addProduct(CartItem product) {
         this.products.add(product);
     }
 
-    public void  deleteProduct(){
-        this.products.removeAll(this.products);
-    }
 
 }
