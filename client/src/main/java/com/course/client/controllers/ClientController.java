@@ -55,7 +55,7 @@ public class ClientController {
         for (CartItemBean cartItem : cart.get().getProducts()) {
             Optional<ProductBean> product = msProductProxy.get(cartItem.getProductId());
             Double totalPrice=cartItem.getQuantity()*product.get().getPrice();
-            Item item = new Item(product.get().getIllustration(),product.get().getName(),cartItem.getQuantity(),product.get().getPrice(),totalPrice);
+            Item item = new Item(product.get().getId(),product.get().getIllustration(),product.get().getName(),cartItem.getQuantity(),product.get().getPrice(),totalPrice);
             itemsCart.add(item);
             totalAmount+=totalPrice;
         }
@@ -103,7 +103,7 @@ public class ClientController {
         for (OrderItemBean orderItem : order.get().getProducts()) {
             Optional<ProductBean> product = msProductProxy.get(orderItem.getProductId());
             Double totalPrice=orderItem.getQuantity()*product.get().getPrice();
-            Item item = new Item(product.get().getIllustration(),product.get().getName(),orderItem.getQuantity(),product.get().getPrice(),totalPrice);
+            Item item = new Item(product.get().getId(),product.get().getIllustration(),product.get().getName(),orderItem.getQuantity(),product.get().getPrice(),totalPrice);
             itemsOrder.add(item);
             totalAmount+=totalPrice;
         }
@@ -122,29 +122,62 @@ public class ClientController {
 
         Optional<CartBean> cart = msCartProxy.getCart(1L);
         for (CartItemBean cartItem : cart.get().getProducts()) {
-            OrderItemBean orderItem = new OrderItemBean(cartItem.getProductId(), 1);
+            OrderItemBean orderItem = new OrderItemBean(cartItem.getProductId(), cartItem.getQuantity());
             msOrderProxy.addProductToOrder(order.getBody().getId(), orderItem);
         }
         msCartProxy.deleteItemCart(1L);
 
         return new RedirectView("/orders");
+    }
 
+    @GetMapping ( "/minus-quantity/{productId}")
+    public RedirectView minusQuantity(Model model, @PathVariable Long productId){
+        Optional<CartBean> cart = msCartProxy.getCart(1L);
+        for (CartItemBean cartItem : cart.get().getProducts()) {
+            if (cartItem.getProductId()==productId){
+                cartItem.setQuantity(cartItem.getQuantity()-1);
+                msCartProxy.updateProduct(1L,productId);
+            }
+        }
+        return new RedirectView("/cart-detail");
+    }
+
+    @GetMapping ( "/plus-quantity/{productId}")
+    public RedirectView plusQuantity(Model model, @PathVariable Long productId){
+        Optional<CartBean> cart = msCartProxy.getCart(1L);
+        for (CartItemBean cartItem : cart.get().getProducts()) {
+            if (cartItem.getProductId()==productId){
+                cartItem.setQuantity(cartItem.getQuantity()+1);
+                msCartProxy.updateProduct(1L,productId);
+            }
+        }
+        return new RedirectView("/cart-detail");
     }
 
     // Object item représentant un élément du panier et permettant d'afficher en détail le panier.
     public class Item{
+        Long id;
         String name;
         int quantity;
         Double price;
         Double totalPrice;
         String illustration;
 
-        public Item(String illustration,String name, int quantity, Double price, Double totalPrice) {
+        public Item(Long id,String illustration,String name, int quantity, Double price, Double totalPrice) {
+            this.id=id;
             this.illustration=illustration;
             this.name = name;
             this.quantity = quantity;
             this.price = price;
             this.totalPrice = totalPrice;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
         }
 
         public String getName() {
