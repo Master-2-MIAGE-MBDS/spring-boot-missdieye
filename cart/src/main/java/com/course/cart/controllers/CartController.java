@@ -61,23 +61,6 @@ public class CartController {
 
         return new ResponseEntity<CartItem>(cartItem, HttpStatus.CREATED);
     }
-    
-    // Remove a product from the cart
-    @DeleteMapping(value = "/deleteItem-cart/{id}")
-    @Transactional
-    public ResponseEntity<CartItem> removeProductToCart(@PathVariable Long id, @RequestBody CartItem cartItem)
-    {
-        Cart cart = cartRepository.getOne(id);
-
-        if (cart == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't get cart");
-
-        cart.removeProduct(cartItem);
-
-        cartRepository.save(cart);
-
-        return new ResponseEntity<CartItem>(cartItem, HttpStatus.OK);
-    }
 
 
     // Post en lui donnant l'id de la carte et l'id du produit pour modifier 
@@ -117,5 +100,25 @@ public class CartController {
         cart.getProducts().clear();
         cartRepository.save(cart);
 
+    }
+
+    // Remove a product from the cart
+    @PostMapping(value = "/deleteItem-cart/{idCart}/{idProduct}")
+    public void removeProductToCart(@PathVariable Long idCart,@PathVariable Long idProduct)
+    {
+        Cart cart = cartRepository.getOne(idCart);
+
+        if (cart == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't get cart");
+        CartItem cartItemToRemove = null;
+         //Chercher le produit qu'on veut modifier sa quantité et dont son id est idProduct
+         for (CartItem cartItem : cart.getProducts()) {
+            // Si le current id est égal à l'id du produit qu'on cherche
+            if (cartItem.getProductId()==idProduct){
+                cartItemToRemove=cartItem;
+            }
+        }
+        //cart.removeProduct(cartItemToRemove);
+        cartRepository.save(cart);
     }
 }

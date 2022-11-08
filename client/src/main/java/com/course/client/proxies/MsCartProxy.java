@@ -20,8 +20,8 @@ public interface MsCartProxy {
     @PostMapping(value = "/cart/{id}")
     public ResponseEntity<CartItemBean> addProductToCart(@PathVariable Long id, @RequestBody CartItemBean cartItem);
 
-    @PostMapping(value = "/deleteItem-cart/{id}")
-    public ResponseEntity<CartItemBean> removeProductToCart(@PathVariable Long id, @RequestBody CartItemBean cartItem);
+    @PostMapping(value = "/deleteItem-cart/{idCart}/{idProduct}")
+    public void removeProductToCart(@PathVariable Long idCart,@PathVariable Long idProduct);
 
     @PostMapping(value = "/cartItems/{idCart}")
     public void deleteItemsCart(@PathVariable Long idCart);

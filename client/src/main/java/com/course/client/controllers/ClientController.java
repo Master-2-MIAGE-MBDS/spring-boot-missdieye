@@ -5,6 +5,7 @@ import com.course.client.proxies.MsCartProxy;
 import com.course.client.proxies.MsOrderProxy;
 import com.course.client.proxies.MsProductProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +79,6 @@ public class ClientController {
             //Si le produit que l'on veut ajouter existe déjà
             if (cartItem.getProductId()==productId){
                 exist=true;
-                //cartItem.setQuantity(cartItem.getQuantity()+1);
                 // On appelle la fonction updateProductQuantity qui permet de l'incrémenter de 1
                 msCartProxy.updateProductQuantity(1L,productId,false);
             }
@@ -94,8 +95,8 @@ public class ClientController {
     // Liste des commandes
     @GetMapping("orders")
     public String orders(Model model) {
-        // List<OrderBean> orders = msOrderProxy.getOrders();
-        //model.addAttribute("orders", orders);
+        List<OrderBean> orders = msOrderProxy.getOrders();
+        model.addAttribute("orders", orders);
         return "orders";
     }
 
@@ -120,22 +121,22 @@ public class ClientController {
 
     // Valider le panier
     @PostMapping( "/validate-cart/{amount}")
-    public RedirectView addOrder(Model model, @PathVariable Double amount){
-        // //Création de la ligne commande dans la base de données
-        // OrderBean orderBean=new OrderBean(new Date(),amount);
-        // ResponseEntity<OrderBean> order=msOrderProxy.createNewOrder(orderBean);
+    public RedirectView addOrder( @PathVariable Double amount){
+        //Création de la ligne commande dans la base de données
+         OrderBean orderBean=new OrderBean(new Date(),amount);
+         ResponseEntity<OrderBean> order=msOrderProxy.createNewOrder(orderBean);
 
-        // Optional<CartBean> cart = msCartProxy.getCart(1L);
-        // for (CartItemBean cartItem : cart.get().getProducts()) {
-        //     OrderItemBean orderItem = new OrderItemBean(cartItem.getProductId(), cartItem.getQuantity());
-        //     msOrderProxy.addProductToOrder(order.getBody().getId(), orderItem);
-        // }
-
+        Optional<CartBean> cart = msCartProxy.getCart(1L);
+        for (CartItemBean cartItem : cart.get().getProducts()) {
+           OrderItemBean orderItem = new OrderItemBean(cartItem.getProductId(), cartItem.getQuantity());
+            msOrderProxy.addProductToOrder(order.getBody().getId(), orderItem);
+         }
+        msCartProxy.deleteItemsCart(1L);
         return new RedirectView("/orders");
     }
 
     @GetMapping ( "/minus-quantity/{productId}")
-    public RedirectView minusQuantity(Model model, @PathVariable Long productId){
+    public RedirectView minusQuantity( @PathVariable Long productId){
         Optional<CartBean> cart = msCartProxy.getCart(1L);
         for (CartItemBean cartItem : cart.get().getProducts()) {
             if (cartItem.getProductId()==productId){
@@ -146,12 +147,23 @@ public class ClientController {
     }
 
     @GetMapping ( "/plus-quantity/{productId}")
-    public RedirectView plusQuantity(Model model, @PathVariable Long productId){
+    public RedirectView plusQuantity(@PathVariable Long productId){
         Optional<CartBean> cart = msCartProxy.getCart(1L);
         for (CartItemBean cartItem : cart.get().getProducts()) {
             if (cartItem.getProductId()==productId){
                 cartItem.setQuantity(cartItem.getQuantity()+1);
                 msCartProxy.updateProductQuantity(1L,productId,false);
+            }
+        }
+        return new RedirectView("/cart-detail");
+    }
+
+    @PostMapping( "/delete-product/{productId}")
+    public RedirectView deleteProduct( @PathVariable Long productId){
+        Optional<CartBean> cart = msCartProxy.getCart(1L);
+        for (CartItemBean cartItem : cart.get().getProducts()) {
+            if (cartItem.getProductId()==productId){
+                msCartProxy.removeProductToCart(1L,productId);
             }
         }
         return new RedirectView("/cart-detail");
