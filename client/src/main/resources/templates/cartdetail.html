@@ -56,19 +56,28 @@
 													<div class="col my-auto">
 														<small
 															>Quantité:
-															<a th:href="@{|/minus-quantity/${cartItem.id}|}" class="qty qty-minus">-</a>
+															<a th:if="${cartItem.quantity>1}" th:href="@{|/minus-quantity/${cartItem.id}|}" class="qty qty-minus">-</a>
 															<input
 																class="input--style"
 																type="numeric"
 																id="qty"
+																min="0"
 																name="qty"
 																th:value="*{cartItem.quantity}"
+																readonly
 															/>
-															<a th:href="@{|/plus-quantity/${cartItem.id}|}"class="qty qty-plus">+</a></small
+															<a th:href="@{|/plus-quantity/${cartItem.id}|}" class="qty qty-plus">+</a></small
 														>
 													</div>
 													<div class="col my-auto">
 														<h6 class="mb-0" th:text="'Prix total : '+${cartItem.totalPrice}+' €'"></h6>
+													</div>
+													<div class="col my-auto">
+														<form th:action="@{|/delete-product/${cartItem.id}|}" method="POST">
+															<button type="submit" class="bouton bouton-link bouton-block btn btn-danger">
+																Remove
+															</button>
+														</form>
 													</div>
 												</div>
 											</div>
@@ -395,6 +404,7 @@
 			-moz-transition: all 0.4s ease;
 			transition: all 0.4s ease;
 			padding: 0 10px;
+			width: 40px;
 		}
 
 		input,

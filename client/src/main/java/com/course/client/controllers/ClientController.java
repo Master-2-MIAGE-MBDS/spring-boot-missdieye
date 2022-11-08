@@ -5,7 +5,6 @@ import com.course.client.proxies.MsCartProxy;
 import com.course.client.proxies.MsOrderProxy;
 import com.course.client.proxies.MsProductProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ClientController {
@@ -71,13 +72,17 @@ public class ClientController {
 
         Optional<CartBean> cart = msCartProxy.getCart(1L);
         boolean exist = false;
+        // Boucler sur la liste des produits qui existent déjà dans le panier
         for (CartItemBean cartItem : cart.get().getProducts()) {
+            //Si le produit que l'on veut ajouter existe déjà
             if (cartItem.getProductId()==productId){
                 exist=true;
-                cartItem.setQuantity(cartItem.getQuantity()+1);
-                msCartProxy.updateProduct(1L,productId);
+                //cartItem.setQuantity(cartItem.getQuantity()+1);
+                // On appelle la fonction updateProductQuantity qui permet de l'incrémenter de 1
+                msCartProxy.updateProductQuantity(1L,productId,false);
             }
         }
+        // Si le produit n'existe pas, on l'ajoute
         if (!exist){
             CartItemBean cartItem = new CartItemBean(productId, 1);
             msCartProxy.addProductToCart(1L, cartItem);
@@ -89,8 +94,8 @@ public class ClientController {
     // Liste des commandes
     @GetMapping("orders")
     public String orders(Model model) {
-        List<OrderBean> orders = msOrderProxy.getOrders();
-        model.addAttribute("orders", orders);
+        // List<OrderBean> orders = msOrderProxy.getOrders();
+        //model.addAttribute("orders", orders);
         return "orders";
     }
 
@@ -116,16 +121,15 @@ public class ClientController {
     // Valider le panier
     @PostMapping( "/validate-cart/{amount}")
     public RedirectView addOrder(Model model, @PathVariable Double amount){
-        //Création de la ligne commande dans la base de données
-        OrderBean orderBean=new OrderBean(new Date(),amount);
-        ResponseEntity<OrderBean> order=msOrderProxy.createNewOrder(orderBean);
+        // //Création de la ligne commande dans la base de données
+        // OrderBean orderBean=new OrderBean(new Date(),amount);
+        // ResponseEntity<OrderBean> order=msOrderProxy.createNewOrder(orderBean);
 
-        Optional<CartBean> cart = msCartProxy.getCart(1L);
-        for (CartItemBean cartItem : cart.get().getProducts()) {
-            OrderItemBean orderItem = new OrderItemBean(cartItem.getProductId(), cartItem.getQuantity());
-            msOrderProxy.addProductToOrder(order.getBody().getId(), orderItem);
-        }
-        msCartProxy.deleteItemCart(1L);
+        // Optional<CartBean> cart = msCartProxy.getCart(1L);
+        // for (CartItemBean cartItem : cart.get().getProducts()) {
+        //     OrderItemBean orderItem = new OrderItemBean(cartItem.getProductId(), cartItem.getQuantity());
+        //     msOrderProxy.addProductToOrder(order.getBody().getId(), orderItem);
+        // }
 
         return new RedirectView("/orders");
     }
@@ -135,8 +139,7 @@ public class ClientController {
         Optional<CartBean> cart = msCartProxy.getCart(1L);
         for (CartItemBean cartItem : cart.get().getProducts()) {
             if (cartItem.getProductId()==productId){
-                cartItem.setQuantity(cartItem.getQuantity()-1);
-                msCartProxy.updateProduct(1L,productId);
+                msCartProxy.updateProductQuantity(1L,productId,true);
             }
         }
         return new RedirectView("/cart-detail");
@@ -148,7 +151,7 @@ public class ClientController {
         for (CartItemBean cartItem : cart.get().getProducts()) {
             if (cartItem.getProductId()==productId){
                 cartItem.setQuantity(cartItem.getQuantity()+1);
-                msCartProxy.updateProduct(1L,productId);
+                msCartProxy.updateProductQuantity(1L,productId,false);
             }
         }
         return new RedirectView("/cart-detail");

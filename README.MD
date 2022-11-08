@@ -5,8 +5,7 @@
 ## Démarrage et compilation
 
 # Auteur
-Cette précieuse application est le résultat d'un travail collaboratif entre deux étudiantes au master 2 MBDS à l'université côte d'azur de Nice dont:
-- **DIEYE Khadidiatou**
+L'auteur de ce projet est **DIEYE Khadidiatou**.
 Mr Galli professeur au sein de l'université côte d'azur a beaucoup contribué sur la partie backend.
 
 ## Licence
@@ -32,12 +31,14 @@ Les technologies utilisées sont :
 - CSS.
 
 ## Comment contribuer
-Pour contribuer, veuillez demander à l'auteur pour que je puisse créer un document contributeur.
+Pour contribuer, veuillez me demander la permission pour que je puisse créer un document contributeur.
 
 ## Versionnement
 - Version 1
+- Version 2: Créer des profils utilisateurs.
 
 ## Crédit
-Pour la réalisation de ce projet, nous nous sommes ressourcées de :
-- Les documents du cours donner par Monsieur Galli.
+Pour la réalisation de ce projet, nous nous sommes ressourcées:
+- des documents du cours donner par Monsieur Galli,
+- de https://spring.io/guides .
 
