@@ -68,7 +68,6 @@ public class CartController {
     public  void updateProductQuantity(@PathVariable Long idCart,@PathVariable Long idProduct,@RequestParam Boolean minus ){
         // Search cart with id idCart
         Cart cart = cartRepository.getOne(idCart);
-        System.out.println("minusjjjjjj "+ minus);
 
         // au cas où le panier n'est pas trouvé
         if (cart == null)
@@ -76,7 +75,7 @@ public class CartController {
 
         //Chercher le produit qu'on veut modifier sa quantité et dont son id est idProduct
         for (CartItem cartItem : cart.getProducts()) {
-            // Si la le current id est égal à l'id du produit qu'on cherche
+            // Si le current id est égal à l'id du produit qu'on cherche
             if (cartItem.getProductId()==idProduct){
                 //On modifie sa quantité pour en diminuer ou ajouter 1
                 if(minus==true) {
@@ -97,9 +96,9 @@ public class CartController {
         if (cart == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't get cart");
 
-        cart.getProducts().clear();
+        cart.emptyCart();
+        cartItemRepository.deleteAll();
         cartRepository.save(cart);
-
     }
 
     // Remove a product from the cart
@@ -118,7 +117,7 @@ public class CartController {
                 cartItemToRemove=cartItem;
             }
         }
-        //cart.removeProduct(cartItemToRemove);
+        cart.removeProduct(cartItemToRemove);
         cartRepository.save(cart);
     }
 }

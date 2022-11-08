@@ -20,7 +20,7 @@ Dans ce projet nous avons 4 microservices qui comminuquent entre eux. Nous avons
 Pour lancer ce projet, il vous suffit de l'ouvrir avec votre IDE et exécuter toutes les classes mains de l'application. Il s'agit de ClientAplication, CartAplication, OrderAplication et ProductAplication.
 # Auteur
 L'auteur de ce projet est **DIEYE Khadidiatou**.
-Mr Galli professeur au sein de l'université côte d'azur a beaucoup contribué sur la partie backend.
+Mr Galli professeur au sein de l'université Côte d'Azur a beaucoup contribué sur la partie backend.
 
 ## Licence
 Ce projet est "open source".

@@ -44,5 +44,7 @@ public class Cart {
         this.products.remove(product);
     }
 
-
+    public void emptyCart(){
+        this.products = null;
+    }
 }

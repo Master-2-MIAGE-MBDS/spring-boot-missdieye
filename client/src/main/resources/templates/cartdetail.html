@@ -20,7 +20,7 @@
 						<div class="media flex-sm-row flex-column-reverse justify-content-between">
 							<div class="col my-auto"><h4 class="mb-0">Mon panier</h4></div>
 							<div class="col my-auto" th:if="${cartItems.size()>0}">
-								<form th:action="@{|/validate-cart/${totalAmount}|}" method="POST">
+								<form th:action="@{|/validate-cart|}" method="POST">
 									<button type="submit" class="bouton bouton-link bouton-block btn btn-success">Valider mon panier</button>
 								</form>
 							</div>

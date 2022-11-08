@@ -70,7 +70,7 @@ public class ClientController {
 
     //Ajouter un produit au panier
     @PostMapping("/cart/{productId}")
-    public RedirectView addCart(Model model, @PathVariable Long productId) {
+    public RedirectView addCart(@PathVariable Long productId) {
 
         Optional<CartBean> cart = msCartProxy.getCart(1L);
         boolean exist = false;
@@ -120,10 +120,10 @@ public class ClientController {
     }
 
     // Valider le panier
-    @PostMapping( "/validate-cart/{amount}")
-    public RedirectView addOrder( @PathVariable Double amount){
+    @PostMapping( "/validate-cart")
+    public RedirectView addOrder(){
         //Création de la ligne commande dans la base de données
-         OrderBean orderBean=new OrderBean(new Date(),amount);
+         OrderBean orderBean=new OrderBean(new Date(),getTotalPrice());
          ResponseEntity<OrderBean> order=msOrderProxy.createNewOrder(orderBean);
 
         Optional<CartBean> cart = msCartProxy.getCart(1L);
@@ -133,6 +133,16 @@ public class ClientController {
          }
         msCartProxy.deleteItemsCart(1L);
         return new RedirectView("/orders");
+    }
+
+    public Double getTotalPrice(){
+        Double totalPrice=0D;
+        Optional<CartBean> cart = msCartProxy.getCart(1L);
+        for (CartItemBean cartItem : cart.get().getProducts()) {
+            Optional<ProductBean> product = msProductProxy.get(cartItem.getProductId());
+            totalPrice+=cartItem.getQuantity()*product.get().getPrice();
+        }
+        return  totalPrice;
     }
 
     @GetMapping ( "/minus-quantity/{productId}")
@@ -151,7 +161,6 @@ public class ClientController {
         Optional<CartBean> cart = msCartProxy.getCart(1L);
         for (CartItemBean cartItem : cart.get().getProducts()) {
             if (cartItem.getProductId()==productId){
-                cartItem.setQuantity(cartItem.getQuantity()+1);
                 msCartProxy.updateProductQuantity(1L,productId,false);
             }
         }
